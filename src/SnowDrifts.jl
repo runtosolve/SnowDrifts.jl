@@ -21,6 +21,32 @@ Ground snow load `pg` and the winter wind parameter `W2` are site- and
 risk-category-specific; obtain them from the ASCE 7 Hazard Tool
 (https://asce7hazardtool.online/) or, for Alaska, Table 7.2-1. This
 package does not embed that geodatabase.
+
+## Output variables
+
+Most functions return a single `Float64`. The drift functions return a
+[`DriftLoad`](@ref), with fields:
+
+| Field | Meaning | Units |
+|---|---|---|
+| `hd` | design drift height (surcharge peak) | ft |
+| `w` | drift width (horizontal extent of the surcharge) | ft |
+| `pd` | maximum drift surcharge intensity, `pd = hd * γ` | lb/ft² |
+| `hd_raw` | drift height before any `hc` cap is applied | ft |
+
+| Function | Returns |
+|---|---|
+| `snow_density` | `γ`, snow density, lb/ft³ |
+| `flat_roof_snow_load` | `pf`, flat roof snow load, lb/ft² |
+| `sloped_roof_snow_load` | `ps`, sloped (balanced) roof snow load, lb/ft² |
+| `balanced_snow_height` | `hb`, height of balanced snow load, ft |
+| `minimum_snow_load` | `pm`, minimum roof snow load, lb/ft² |
+| `drift_height` | `hd`, drift height, ft |
+| `requires_drift_load` | `Bool` — whether `hc/hb >= 0.2` |
+| `leeward_drift`, `windward_drift`, `adjacent_structure_drift`, `parapet_drift` | `DriftLoad` |
+| `unbalanced_gable_hip_surcharge` | `DriftLoad` (`pd` is the surcharge intensity, `w` its extent from the ridge) |
+| `roof_step_drift` | `NamedTuple(required::Bool, leeward::DriftLoad, windward::DriftLoad, governing::Symbol)` |
+| `roof_projection_drift` | `NamedTuple(required::Bool, drift::Union{DriftLoad,Nothing})` |
 """
 module SnowDrifts
 
