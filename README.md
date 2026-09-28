@@ -12,8 +12,10 @@ using Pkg
 Pkg.add(url="https://github.com/<your-org>/SnowDrifts.jl")
 ```
 
-No names are exported; call functions as `SnowDrifts.drift_height(...)` or
-bring specific names into scope with `using SnowDrifts: drift_height`.
+No names are exported: after `using SnowDrifts`, call functions with the
+module prefix, e.g. `SnowDrifts.drift_height(...)`. (You can still bring
+specific names into unqualified scope with `using SnowDrifts: drift_height`
+if you prefer.)
 
 ## What's implemented
 
@@ -41,22 +43,21 @@ Table 7.2-1. This package does not embed that geodatabase.
 ## Example: drift at a roof step
 
 ```julia
-using SnowDrifts: snow_density, flat_roof_snow_load, sloped_roof_snow_load,
-                  balanced_snow_height, roof_step_drift
+using SnowDrifts
 
 pg, W2 = 30.0, 0.45          # from the ASCE 7 Hazard Tool
 Ce, Ct, Cs = 1.0, 1.0, 1.0
 
-γ  = snow_density(pg)
-pf = flat_roof_snow_load(pg; Ce=Ce, Ct=Ct)
-ps = sloped_roof_snow_load(pf, Cs)
-hb = balanced_snow_height(ps, γ)
+γ  = SnowDrifts.snow_density(pg)
+pf = SnowDrifts.flat_roof_snow_load(pg; Ce=Ce, Ct=Ct)
+ps = SnowDrifts.sloped_roof_snow_load(pf, Cs)
+hb = SnowDrifts.balanced_snow_height(ps, γ)
 
 hc = 6.0            # clear height from top of balanced snow to upper roof
 lu_upper = 120.0    # length of upper roof
 lu_lower = 60.0     # length of lower roof
 
-result = roof_step_drift(pg, W2, γ, hb, hc, lu_upper, lu_lower)
+result = SnowDrifts.roof_step_drift(pg, W2, γ, hb, hc, lu_upper, lu_lower)
 
 if result.required
     println("Governing case: ", result.governing)
