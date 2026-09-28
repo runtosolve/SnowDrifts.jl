@@ -12,6 +12,9 @@ using Pkg
 Pkg.add(url="https://github.com/<your-org>/SnowDrifts.jl")
 ```
 
+No names are exported; call functions as `SnowDrifts.drift_height(...)` or
+bring specific names into scope with `using SnowDrifts: drift_height`.
+
 ## What's implemented
 
 | ASCE 7-22 reference | Function |
@@ -38,7 +41,8 @@ Table 7.2-1. This package does not embed that geodatabase.
 ## Example: drift at a roof step
 
 ```julia
-using SnowDrifts
+using SnowDrifts: snow_density, flat_roof_snow_load, sloped_roof_snow_load,
+                  balanced_snow_height, roof_step_drift
 
 pg, W2 = 30.0, 0.45          # from the ASCE 7 Hazard Tool
 Ce, Ct, Cs = 1.0, 1.0, 1.0

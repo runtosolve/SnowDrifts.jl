@@ -1,4 +1,11 @@
-using SnowDrifts
+using SnowDrifts: snow_density, flat_roof_snow_load, sloped_roof_snow_load,
+                  balanced_snow_height, minimum_snow_load,
+                  drift_height,
+                  DriftLoad,
+                  requires_drift_load, leeward_drift, windward_drift, roof_step_drift,
+                  adjacent_structure_drift,
+                  parapet_drift, roof_projection_drift,
+                  unbalanced_gable_hip_surcharge
 using Test
 
 @testset "SnowDrifts.jl" begin
