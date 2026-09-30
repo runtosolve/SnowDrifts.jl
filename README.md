@@ -8,10 +8,15 @@ supported.
 
 ## Installation
 
+Registered in the RunToSolve Julia registry:
+
 ```julia
 using Pkg
-Pkg.add(url="https://github.com/<your-org>/SnowDrifts.jl")
+Pkg.Registry.add(url="https://github.com/runtosolve/RunToSolveJuliaRegistry")  # once
+Pkg.add("SnowDrifts")
 ```
+
+or directly from GitHub: `Pkg.add(url="https://github.com/runtosolve/SnowDrifts.jl")`.
 
 No names are exported: after `using SnowDrifts`, call functions with the
 module prefix, e.g. `SnowDrifts.drift_height(...)`. (You can still bring
