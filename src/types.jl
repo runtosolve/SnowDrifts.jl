@@ -9,7 +9,8 @@ Result of a drift-load calculation.
 - `w::Float64`: drift width, ft — horizontal extent of the triangular
   surcharge, measured from the wall/step.
 - `pd::Float64`: maximum intensity of the drift surcharge load, lb/ft²
-  (`pd = hd * γ`). This surcharge is added on top of the balanced snow
+  (`pd = factor * hd * γ`, with `factor` from `snow_load_factor(design_code)`:
+  0.7 for ASD, 1.0 for LRFD). This surcharge is added on top of the balanced snow
   load `ps`, decreasing linearly to zero over the width `w`.
 - `hd_raw::Float64`: the uncapped drift height directly from Eq. (7.6-1)
   (or 0.75× that value for windward/projection drifts), before any `hc`
