@@ -53,9 +53,11 @@ Because of that difference, `leeward_drift`/`windward_drift` are
 ASCE-7-22-only building blocks (they error for any other `standard`);
 `roof_step_drift` is the standard-aware entry point that implements each
 edition's actual mechanic and is what most calling code should use.
-`adjacent_structure_drift`, `parapet_drift`, `roof_projection_drift`, and
-`unbalanced_gable_hip_surcharge` read identically in both editions, so
-they dispatch on `standard` internally and accept either `W2` or `Is`.
+
+`W2` stays a required positional argument everywhere (for backward
+compatibility); `Is` is an extra optional keyword, used only when
+`standard=:ASCE7_16` (pass any placeholder for `W2` in that case — it's
+ignored).
 
 ## What's implemented
 
@@ -102,8 +104,8 @@ hc = 6.0            # clear height from top of balanced snow to upper roof
 lu_upper = 120.0    # length of upper roof
 lu_lower = 60.0     # length of lower roof
 
-result = SnowDrifts.roof_step_drift(pg, γ, hb, hc, lu_upper, lu_lower;
-                                     W2=W2, design_code=design_code)
+result = SnowDrifts.roof_step_drift(pg, W2, γ, hb, hc, lu_upper, lu_lower;
+                                     design_code=design_code)
 
 if result.required
     println("Governing case: ", result.governing)
@@ -121,7 +123,7 @@ determine which controls the design of a given member.
 ### The same roof step, under ASCE 7-16
 
 ```julia
-result16 = SnowDrifts.roof_step_drift(pg, γ, hb, hc, lu_upper, lu_lower;
+result16 = SnowDrifts.roof_step_drift(pg, NaN, γ, hb, hc, lu_upper, lu_lower;  # W2 unused for 7-16
                                        standard=:ASCE7_16, Is=1.0, design_code=design_code)
 
 # result16.leeward and result16.windward are the SAME DriftLoad here: ASCE 7-16

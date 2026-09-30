@@ -50,12 +50,15 @@ Because of that last difference, [`leeward_drift`](@ref) and
 [`windward_drift`](@ref) are ASCE-7-22-only building blocks (they error
 for any other `standard`); [`roof_step_drift`](@ref) is the standard-aware
 entry point that implements each edition's actual mechanic and should be
-preferred when more than one standard might be selected. The simpler
-drift locations — [`adjacent_structure_drift`](@ref),
-[`parapet_drift`](@ref), [`roof_projection_drift`](@ref),
-[`unbalanced_gable_hip_surcharge`](@ref) — read identically in both
-editions' text, so they dispatch on `standard` internally and accept
-either `W2` or `Is` as a keyword.
+preferred when more than one standard might be selected.
+
+Every function keeps `W2` as a required positional argument (for
+backward compatibility); `Is` is an additional optional keyword, used
+only when `standard=:ASCE7_16` (pass any placeholder for `W2` in that
+case — it's ignored). [`adjacent_structure_drift`](@ref),
+[`parapet_drift`](@ref), [`roof_projection_drift`](@ref), and
+[`unbalanced_gable_hip_surcharge`](@ref) read identically in both
+editions' text, so they dispatch on `standard` internally.
 
 Ground snow load `pg`, the winter wind parameter `W2` (ASCE 7-22), and
 the snow importance factor `Is` (ASCE 7-16) are site- and
