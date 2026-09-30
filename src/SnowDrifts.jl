@@ -1,12 +1,18 @@
 """
     SnowDrifts
 
-Snow drift magnitudes and widths per ASCE/SEI 7 Chapter 7 ("Snow Loads").
+Snow drift magnitudes and widths, scaffolded to support **multiple
+building-code standards** ([`STANDARDS`](@ref)) rather than one hardcoded
+formula set. ASCE/SEI 7-22 and 7-16 are fully implemented; other
+standards (NBCC, Eurocode, AS/NZS, AIJ, GB, ...) are registered
+placeholders, ready for real implementations once their source text is
+verified — see "Design standard" below.
+
 This package computes DRIFTS ONLY. The regular balanced and unbalanced
 roof snow loads (`pf`, `ps`, `pm`, gable unbalanced load, rain-on-snow)
 come from a separate package (SnowLoads.jl); pass its (factored) `ps` in
 as `hb = balanced_snow_height(ps, γ; design_code)` where a drift needs it.
-Implements:
+Implements, per ASCE/SEI 7 Chapter 7 ("Snow Loads"):
 
 - Eq. (7.6-1)/Fig. 7.6-1: drift height, `hd`
 - Eq. (7.7-1): snow density, `γ`
@@ -21,8 +27,9 @@ lengths and heights. SI is not currently supported.
 
 ## Design standard (user input)
 
-Every public function takes `standard` (a key of [`STANDARDS`](@ref),
-default `:ASCE7_22`), the same list as SnowLoads.jl:
+Every public function takes a `standard` keyword — this is the scaffold
+that makes the package multi-code: a key of [`STANDARDS`](@ref), default
+`:ASCE7_22`, the same list as SnowLoads.jl:
 
 | Key | Standard | Implemented? |
 |---|---|---|
